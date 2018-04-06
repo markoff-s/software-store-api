@@ -1,0 +1,4 @@
+name: Auto App1
+package: Auto App1 Package
+picture_128: small.png
+picture_512: big.png
