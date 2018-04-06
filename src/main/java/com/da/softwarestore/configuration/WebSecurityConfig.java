@@ -60,9 +60,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers(EndPoints.API + EndPoints.AUTHENTICATION)
+                .antMatchers(HttpMethod.OPTIONS, "/**")
                 .permitAll()
-                .antMatchers(EndPoints.API + EndPoints.CATEGORIES + "/**")
+                .antMatchers(HttpMethod.POST,EndPoints.API + EndPoints.AUTHENTICATION)
+                .permitAll()
+                .antMatchers(HttpMethod.GET,EndPoints.API + EndPoints.CATEGORIES + "/**")
                 .permitAll()
                 .antMatchers(HttpMethod.GET,EndPoints.API + EndPoints.APPLICATIONS + "/**")
                 .permitAll()
