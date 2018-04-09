@@ -8,6 +8,10 @@ public class JwtAuthenticationResponse implements Serializable {
 
     private final String token;
 
+    private JwtAuthenticationResponse() {
+        token = null;
+    }
+
     public JwtAuthenticationResponse(String token) {
         this.token = token;
     }
