@@ -15,8 +15,8 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-@RunWith(MockitoJUnitRunner.class)
-public class ApplicationArchiveReaderTest {
+//@RunWith(MockitoJUnitRunner.class)
+public class ApplicationArchiveReaderUnitTests {
 
     private byte[] validArchive;
 
