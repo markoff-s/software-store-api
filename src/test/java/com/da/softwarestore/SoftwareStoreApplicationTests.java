@@ -18,7 +18,7 @@ public class SoftwareStoreApplicationTests {
 	private ApplicationContext applicationContext;
 
 	@Test
-	public void welcomeCommandLineRunnerShouldBeAvailable() {
+	public void databaseLoaderShouldBeAvailable() {
 		// Since we're a @SpringBootTest all beans should be available.
 		assertThat(this.applicationContext.getBean(DatabaseLoader.class))
 				.isNotNull();
