@@ -3,6 +3,7 @@ package com.da.softwarestore.model.software;
 import com.da.softwarestore.model.security.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -49,6 +50,12 @@ public class Application extends BaseEntity {
                        SmallImage smallImage,
                        Category category,
                        User createdBy) {
+        Assert.hasLength(name, "Name must not be empty");
+        Assert.hasLength(packageName, "Package name must not be empty");
+        Assert.notNull(smallImage, "Small image must not be null");
+        Assert.notNull(category, "Category must not be null");
+        Assert.notNull(createdBy, "User must not be null");
+
         this.name = name;
         this.packageName = packageName;
         this.description = description;
