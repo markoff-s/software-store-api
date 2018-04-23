@@ -1,7 +1,6 @@
 package com.da.softwarestore.security.jwt;
 
 import com.da.softwarestore.model.security.Authority;
-import com.da.softwarestore.security.jwt.JwtUser;
 import com.da.softwarestore.model.security.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,9 +15,9 @@ public class JwtUserFactory {
     public static JwtUser create(User user) {
         return new JwtUser(
                 user.getId(),
-                user.getUsername(),
-                user.getFirstname(),
-                user.getLastname(),
+                user.getUserName(),
+                user.getFirstName(),
+                user.getLastName(),
                 user.getPassword(),
                 mapToGrantedAuthorities(user.getAuthorities())
         );

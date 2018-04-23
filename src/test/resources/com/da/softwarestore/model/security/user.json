@@ -1,13 +1,13 @@
 {
   "id": null,
+  "userName": "johns",
+  "firstName": "John",
+  "lastName": "Smith",
   "authorities": [
     {
       "id": null,
       "name": "ROLE_USER",
       "users": null
     }
-  ],
-  "username": "johns",
-  "firstname": "John",
-  "lastname": "Smith"
+  ]
 }

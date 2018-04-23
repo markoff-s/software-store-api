@@ -65,15 +65,15 @@ public class User {
         return id;
     }
 
-    public String getUsername() {
+    public String getUserName() {
         return userName;
     }
 
-    public String getFirstname() {
+    public String getFirstName() {
         return firstName;
     }
 
-    public String getLastname() {
+    public String getLastName() {
         return lastName;
     }
 
