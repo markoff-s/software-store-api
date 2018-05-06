@@ -11,11 +11,14 @@ import com.da.softwarestore.repository.ApplicationRepository;
 import com.da.softwarestore.repository.ArchiveRepository;
 import com.da.softwarestore.repository.BigImageRepository;
 import com.da.softwarestore.repository.UserRepository;
+import com.da.softwarestore.util.ResourceManager;
+import org.apache.el.parser.SimpleCharStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
@@ -50,6 +53,12 @@ public class ApplicationService {
     @Value("${archive.description-file.param-value-separator}")
     private String descriptionFileParamValueSeparator;
 
+    @Value("${application.default-small-image-relative-path}")
+    private String defaultSmallImageRelativePath;
+
+    @Value("${application.default-big-image-relative-path}")
+    private String defaultBigImageRelativePath;
+
     @Autowired
     private ApplicationRepository applicationRepository;
 
@@ -59,8 +68,8 @@ public class ApplicationService {
     @Autowired
     private BigImageRepository bigImageRepository;
 
-    @Autowired
-    private AuthenticationFacade authenticationFacade;
+    /*@Autowired
+    private AuthenticationFacade authenticationFacade;*/
 
     @Autowired
     private ApplicationArchiveReader applicationArchiveReader;
@@ -68,6 +77,8 @@ public class ApplicationService {
     @Autowired
     private ArchiveRepository archiveRepository;
 
+    @Autowired
+    private ResourceManager resourceManager;
 
     public Page<Application> getAll(Pageable pageable) {
         return applicationRepository.findAll(pageable);
@@ -97,7 +108,9 @@ public class ApplicationService {
             throw new InvalidArchiveException(INVALID_DESCRIPTION_FILE_FORMAT);
 
         ArchiveEntry smallImageEntry = getEntryByFileName(archiveEntries, archiveDescription.getSmallImageName());
-        SmallImage smallImage = smallImageEntry != null ? new SmallImage(smallImageEntry.getBytes()) : null;
+        SmallImage smallImage = smallImageEntry != null
+                ? new SmallImage(smallImageEntry.getBytes())
+                : new SmallImage(resourceManager.getImage(defaultSmallImageRelativePath));
 
         Application application = new Application(archiveDescription.getApplicationName(),
                 archiveDescription.getPackageName(),
@@ -108,10 +121,10 @@ public class ApplicationService {
         applicationRepository.save(application);
 
         ArchiveEntry bigImageEntry = getEntryByFileName(archiveEntries, archiveDescription.getBigImageName());
-        if (bigImageEntry != null) {
-            BigImage bigImage = new BigImage(bigImageEntry.getBytes(), application);
-            bigImageRepository.save(bigImage);
-        }
+        BigImage  bigImage = bigImageEntry != null
+            ? new BigImage(bigImageEntry.getBytes(), application)
+            : new BigImage(resourceManager.getImage(defaultBigImageRelativePath), application);
+        bigImageRepository.save(bigImage);
 
         Archive archive = new Archive(request.getArchive(), application);
         archiveRepository.save(archive);
@@ -164,13 +177,8 @@ public class ApplicationService {
     }
 
     private void validateRequest(ApplicationCreationRequest request) {
-        if (request == null)
-            throw new ArgumentValidationException("request");
-
-        if (request.getCategory() == null)
-            throw new ArgumentValidationException("request.category");
-
-        if (request.getArchive().length == 0)
-            throw new ArgumentValidationException("request.archive");
+        Assert.notNull(request, "Request must not be null");
+        Assert.notNull(request.getCategory(), "Category must not be null");
+        Assert.notNull(request.getArchive(), "Archive must not be null");
     }
 }

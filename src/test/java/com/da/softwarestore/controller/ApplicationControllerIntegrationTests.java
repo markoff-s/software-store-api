@@ -46,9 +46,28 @@ public class ApplicationControllerIntegrationTests {
     MockMvc mockMvc;
 
     @Test
-    public void shouldCreateApplicationForValidRequest() throws Exception {
+    public void shouldCreateApplicationForValidFullRequest() throws Exception {
+        createApplication("valid_full.zip");
+    }
+
+    @Test
+    public void shouldCreateApplicationForValidNoSmallPicRequest() throws Exception {
+        createApplication("valid_no_small_pic.zip");
+    }
+
+    @Test
+    public void shouldCreateApplicationForValidNoBigPicRequest() throws Exception {
+        createApplication("valid_no_big_pic.zip");
+    }
+
+    @Test
+    public void shouldCreateApplicationForNoPicsRequest() throws Exception {
+        createApplication("valid_no_pics.zip");
+    }
+
+    private void createApplication(String s) throws Exception {
         Category category = getCategory();
-        MockMultipartFile file = getArchive();
+        MockMultipartFile file = getArchive(s);
         String authToken = getAuthenticationToken();
 
         // create application
@@ -63,10 +82,10 @@ public class ApplicationControllerIntegrationTests {
                 .andExpect(redirectedUrlPattern("/api/applications/[0-9]+"));
     }
 
-    private MockMultipartFile getArchive() throws URISyntaxException, IOException {
+    private MockMultipartFile getArchive(String archiveName) throws URISyntaxException, IOException {
         // get archive
-        Path path = Paths.get(getClass().getClassLoader().getResource("archives/valid.zip").toURI());
-        return new MockMultipartFile("file", "valid.zip", "multipart/form-data", Files.readAllBytes(path));
+        Path path = Paths.get(getClass().getClassLoader().getResource("archives/" + archiveName).toURI());
+        return new MockMultipartFile("file", archiveName, "multipart/form-data", Files.readAllBytes(path));
     }
 
     private Category getCategory() throws Exception {
