@@ -28,14 +28,7 @@ public class UserRepositoryDataJpaTests {
 
         User savedUser = userRepository.save(user);
 
-        assertThat(savedUser).isNotNull();
-        assertThat(savedUser.getId()).isGreaterThan(0);
-        assertThat(savedUser.getUserName()).isEqualTo("johns");
-        assertThat(savedUser.getFirstName()).isEqualTo("John");
-        assertThat(savedUser.getLastName()).isEqualTo("Smith");
-        assertThat(savedUser.getPassword()).isNotNull();
-        assertThat(savedUser.getAuthorities().size()).isEqualTo(1);
-        assertThat(savedUser.getAuthorities().get(0).getName()).isEqualTo(AuthorityName.ROLE_USER);
+        validateUser(savedUser);
     }
 
     @Test
@@ -46,7 +39,18 @@ public class UserRepositoryDataJpaTests {
 
         User savedUser = userRepository.findByUserName(user.getUserName());
 
+        validateUser(savedUser);
+    }
+
+    private void validateUser(User savedUser) {
         assertThat(savedUser).isNotNull();
+        assertThat(savedUser.getId()).isGreaterThan(0);
+        assertThat(savedUser.getUserName()).isEqualTo("johns");
+        assertThat(savedUser.getFirstName()).isEqualTo("John");
+        assertThat(savedUser.getLastName()).isEqualTo("Smith");
+        assertThat(savedUser.getPassword()).isNotNull();
+        assertThat(savedUser.getAuthorities().size()).isEqualTo(1);
+        assertThat(savedUser.getAuthorities().get(0).getName()).isEqualTo(AuthorityName.ROLE_USER);
     }
 
     private User getUser() {
