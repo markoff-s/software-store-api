@@ -11,7 +11,7 @@ import javax.persistence.OneToOne;
 @Data
 public class Blob extends BaseEntity {
 
-    @Column(columnDefinition = "BLOB")
+    @Column(columnDefinition = "BLOB", nullable = false)
     @Lob
     protected byte[] bytes;
 
