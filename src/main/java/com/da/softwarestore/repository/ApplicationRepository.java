@@ -2,6 +2,8 @@ package com.da.softwarestore.repository;
 
 import com.da.softwarestore.model.software.Application;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,4 +36,8 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
             "WHERE app.category.id = :categoryId",
             countQuery = "SELECT COUNT(app) FROM Application app WHERE app.category.id = :categoryId")
     Page<Application> findByCategoryId(@Param("categoryId") Long categoryId, Pageable pageable);
+
+    @Override
+    @CacheEvict(allEntries=true)
+    Application save(Application app);
 }

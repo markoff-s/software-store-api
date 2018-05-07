@@ -15,6 +15,7 @@ import com.da.softwarestore.util.ResourceManager;
 import org.apache.el.parser.SimpleCharStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -93,7 +94,6 @@ public class ApplicationService {
     }
 
     @Transactional
-    // don't forget about cache eviction!!!
     public Application createApplication(ApplicationCreationRequest request) {
         validateRequest(request);
 
