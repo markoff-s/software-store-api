@@ -65,9 +65,9 @@ public class ApplicationControllerIntegrationTests {
         createApplication("valid_no_pics.zip");
     }
 
-    private void createApplication(String s) throws Exception {
+    private void createApplication(String archiveName) throws Exception {
         Category category = getCategory();
-        MockMultipartFile file = getArchive(s);
+        MockMultipartFile file = getArchive(archiveName);
         String authToken = getAuthenticationToken();
 
         // create application

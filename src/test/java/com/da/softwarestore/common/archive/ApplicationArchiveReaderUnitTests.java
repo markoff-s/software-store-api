@@ -22,7 +22,7 @@ public class ApplicationArchiveReaderUnitTests {
     @Before
     public void setUp() throws URISyntaxException, IOException {
 
-        Path path = Paths.get(getClass().getClassLoader().getResource("archives/valid.zip").toURI());
+        Path path = Paths.get(getClass().getClassLoader().getResource("archives/valid_full.zip").toURI());
         validArchive = Files.readAllBytes(path);
     }
 
