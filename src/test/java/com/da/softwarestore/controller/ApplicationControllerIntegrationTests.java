@@ -79,7 +79,7 @@ public class ApplicationControllerIntegrationTests {
                         .contentType(MediaType.MULTIPART_FORM_DATA)
                         .header(tokenHeader, "Bearer " + authToken))
                 .andExpect(status().isCreated())
-                .andExpect(redirectedUrlPattern("/api/applications/[0-9]+"));
+                .andExpect(redirectedUrlPattern("/api1/applications/[0-9]+"));
     }
 
     private MockMultipartFile getArchive(String archiveName) throws URISyntaxException, IOException {
